@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+*.sqlite
+.DS_Store
+.idea/
+.ipynb_checkpoints/
+data/raw/
