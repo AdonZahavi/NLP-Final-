@@ -17,7 +17,7 @@ class AnthropicClient:
         )
 
     def complete(self, prompt: str, **params) -> str:
-        params.setdefault("temperature", 0)
+        params.pop("temperature", None)
         params.setdefault("max_tokens", 256)
         resp = self._client.messages.create(
             model=self.model,
