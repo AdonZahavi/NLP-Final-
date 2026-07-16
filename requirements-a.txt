@@ -1,0 +1,5 @@
+# Lane A (issue #2): API clients, cache, cost tooling
+openai
+anthropic
+python-dotenv
+huggingface_hub
