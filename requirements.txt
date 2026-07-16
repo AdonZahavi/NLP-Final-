@@ -1,0 +1,13 @@
+# Core shared dependencies. Lanes may add requirements-<lane>.txt (see CONTRACT.md);
+# lane files get merged here at integration.
+transformers
+datasets
+torch
+openai
+anthropic
+pandas
+numpy
+scipy
+scikit-learn
+python-dotenv
+tqdm

@@ -11,6 +11,9 @@ We compare LLM performance on Hebrew downstream tasks (sentiment, NLI, QA) under
 
 Models: GPT-4, Claude, LLaMA 3.2 Instruct, Mistral 7B Instruct.
 
-> This is a thin bootstrap commit so parallel work lanes can branch.
-> Full project scaffolding is tracked in issue #1.
-> See `CONTRACT.md` for the interface contract all lanes code against.
+## Repo layout
+
+```
+data/                  datasets; fixed eval subsets in data/subsets/ (raw + segmented)
+segmentation/          YAP/HebPipe setup, comparison, and segmentation scripts
+experiments/         
