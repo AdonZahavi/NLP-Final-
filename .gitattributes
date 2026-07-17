@@ -1,0 +1,9 @@
+# Keep evaluation data byte-exact on every machine — checksums.txt pins sha256
+# of these files, so git must never convert their line endings.
+data/subsets/** -text
+data/raw/** -text
+results/** -text
+
+# Normalize source files to LF in the repo
+*.py text eol=lf
+*.md text

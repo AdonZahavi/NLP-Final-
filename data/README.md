@@ -64,20 +64,20 @@ SQuAD-style extractive QA over Hebrew Wikipedia + Geektime (30,147 questions tot
 ### train (27,142 questions)
 
 - Columns: ['ID', 'Title', 'Source', 'Context', 'Question', 'Answers', 'Is_Impossible', 'WH_Question', 'Question_Quality']
-- Context words: mean 1.0, p95 1 | Question words: mean 6.1
-- Quality: 0 unanswerable, 0 duplicate contexts (multiple Qs per paragraph is expected)
+- Context words: mean 113.7, p95 166 | Question words: mean 6.9
+- Quality: 0 unanswerable, 22689 duplicate contexts (multiple Qs per paragraph is expected)
 
 ### validation (1,501 questions)
 
 - Columns: ['ID', 'Title', 'Source', 'Context', 'Question', 'Answers', 'Is_Impossible', 'WH_Question', 'Question_Quality']
-- Context words: mean 1, p95 1 | Question words: mean 6.2
-- Quality: 0 unanswerable, 0 duplicate contexts (multiple Qs per paragraph is expected)
+- Context words: mean 115.8, p95 169 | Question words: mean 6.7
+- Quality: 0 unanswerable, 1262 duplicate contexts (multiple Qs per paragraph is expected)
 
 ### test (1,504 questions)
 
 - Columns: ['ID', 'Title', 'Source', 'Context', 'Question', 'Answers', 'Is_Impossible', 'WH_Question', 'Question_Quality']
-- Context words: mean 1, p95 1 | Question words: mean 6.1
-- Quality: 0 unanswerable, 0 duplicate contexts (multiple Qs per paragraph is expected)
+- Context words: mean 113.4, p95 168 | Question words: mean 6.7
+- Quality: 0 unanswerable, 1266 duplicate contexts (multiple Qs per paragraph is expected)
 
 ## Cross-cutting notes for the experiments
 

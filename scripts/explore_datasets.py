@@ -153,16 +153,25 @@ def explore_heq(lines: list[str]) -> None:
         "SQuAD-style extractive QA over Hebrew Wikipedia + Geektime "
         "(30,147 questions total).\n"
     )
+    import ast
+
+    def parse_answers(raw):
+        return ast.literal_eval(raw) if isinstance(raw, str) else raw
+
     for split in ds:
         d = ds[split]
         cols = d.column_names
-        ctx_col = "context" if "context" in cols else cols[0]
-        q_col = "question" if "question" in cols else cols[1]
+        pick = lambda *names: next((c for c in names if c in cols), None)  # noqa: E731
+        ctx_col = pick("Context", "context")
+        q_col = pick("Question", "question")
+        ans_col = pick("Answers", "answers")
         ctx_st = text_stats([str(c) for c in d[ctx_col]])
         q_st = text_stats([str(q) for q in d[q_col]])
         n_unans = 0
-        if "answers" in cols:
-            n_unans = sum(1 for a in d["answers"] if not a.get("text"))
+        if ans_col:
+            n_unans = sum(
+                1 for a in d[ans_col] if not parse_answers(a).get("text")
+            )
         lines.append(f"### {split} ({d.num_rows:,} questions)\n")
         lines.append(f"- Columns: {cols}")
         lines.append(
