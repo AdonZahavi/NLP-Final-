@@ -23,6 +23,8 @@ _LABELS = {
 def parse_classification(task: str, raw_output: str) -> str | None:
     """Find exactly one known label in the output; None if zero or ambiguous."""
     text = raw_output.strip().lower()
+    if not text:
+        return None
     # fast path: the whole (first line of the) answer is a label
     first_line = text.splitlines()[0].strip().strip('."\'`:!،,')
     mapping = _LABELS[task]
