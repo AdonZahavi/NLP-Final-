@@ -24,6 +24,7 @@ import argparse
 import hashlib
 import json
 import re
+import sys
 import time
 import urllib.request
 from collections import defaultdict
@@ -79,11 +80,18 @@ class SegmentCache:
         self._f.flush()
 
 
+class YapServerDown(RuntimeError):
+    pass
+
+
 class YapSegmenter:
+    MAX_CONSEC_FAILURES = 5
+
     def __init__(self, host: str):
         self.host = host
         self.requests = 0
         self.failures = 0
+        self.consec_failures = 0
 
     def _joint(self, tokens: list[str]) -> list[str]:
         """Return the flat morpheme sequence for one chunk of tokens."""
@@ -95,6 +103,7 @@ class YapSegmenter:
         with urllib.request.urlopen(req, timeout=300) as resp:
             md = json.loads(resp.read().decode("utf-8")).get("md_lattice", "")
         self.requests += 1
+        self.consec_failures = 0
         per_token: dict[int, list[str]] = defaultdict(list)
         for line in md.strip().splitlines():
             parts = line.split("\t")
@@ -106,7 +115,12 @@ class YapSegmenter:
         return out
 
     def segment_text(self, text: str) -> str:
-        """Sentence-split, chunk, segment, and space-join morphemes."""
+        """Sentence-split, chunk, segment, and space-join morphemes.
+
+        Raises YapServerDown after MAX_CONSEC_FAILURES consecutive request
+        failures — a dead server must ABORT the run, never silently produce
+        unsegmented output (lesson learned the hard way).
+        """
         text = " ".join(text.split())
         chunks: list[list[str]] = []
         for sent in SENT_SPLIT_RE.split(text):
@@ -116,12 +130,29 @@ class YapSegmenter:
                     chunks.append(tokens[i:i + MAX_TOKENS_PER_REQ])
         morphemes: list[str] = []
         for chunk in chunks:
-            try:
-                morphemes.extend(self._joint(chunk))
-            except Exception as e:  # noqa: BLE001 — keep surface tokens on failure
+            last_err: Exception | None = None
+            for attempt in range(2):  # one retry per chunk for transient blips
+                try:
+                    morphemes.extend(self._joint(chunk))
+                    last_err = None
+                    break
+                except Exception as e:  # noqa: BLE001
+                    last_err = e
+                    time.sleep(2)
+            if last_err is not None:
                 self.failures += 1
-                print(f"    [WARN] chunk failed ({type(e).__name__}: {e}); using raw tokens")
-                morphemes.extend(chunk)
+                self.consec_failures += 1
+                if self.consec_failures >= self.MAX_CONSEC_FAILURES:
+                    raise YapServerDown(
+                        f"{self.consec_failures} consecutive YAP failures "
+                        f"(last: {type(last_err).__name__}: {last_err}). "
+                        "The server is down — restart the YAP server cell and "
+                        "re-run; the cache resumes completed texts."
+                    )
+                raise RuntimeError(
+                    f"chunk failed ({type(last_err).__name__}): text will be "
+                    "retried on the next run"
+                )
         return " ".join(morphemes)
 
 
@@ -149,6 +180,7 @@ def main() -> None:
     t0 = time.time()
 
     tasks = [args.task] if args.task else list(TASK_FILES)
+    total_missing = 0
     for task in tasks:
         with open(SUBSETS / TASK_FILES[task], encoding="utf-8") as f:
             records = [json.loads(l) for l in f]
@@ -160,25 +192,43 @@ def main() -> None:
         print(f"[{task}] {len(records)} records, {len(uniq)} unique texts, "
               f"{len(uniq) - len(todo)} cached, {len(todo)} to segment")
 
+        skipped = 0
         for i, text in enumerate(todo, 1):
-            cache.put(text, seg.segment_text(text))
+            try:
+                cache.put(text, seg.segment_text(text))  # only SUCCESS is cached
+            except YapServerDown:
+                raise
+            except RuntimeError as e:
+                skipped += 1
+                print(f"    [WARN] {e}")
             if i % 25 == 0 or i == len(todo):
                 rate = seg.requests / max(time.time() - t0, 1)
                 print(f"  [{task}] {i}/{len(todo)} texts "
-                      f"({seg.requests} reqs, {rate:.1f} req/s, {seg.failures} failed chunks)")
+                      f"({seg.requests} reqs, {rate:.1f} req/s, "
+                      f"{seg.failures} failed chunks, {skipped} texts skipped)")
 
         out_path = OUT_DIR / TASK_FILES[task]
+        missing = 0
         with open(out_path, "w", encoding="utf-8", newline="\n") as f:
             for r in records:
                 out = dict(r)
                 for fld in fields:
-                    out[fld + "_seg"] = cache.get(" ".join(str(r[fld]).split())) or ""
+                    seg_val = cache.get(" ".join(str(r[fld]).split()))
+                    if seg_val is None:
+                        missing += 1
+                        seg_val = ""
+                    out[fld + "_seg"] = seg_val
                 f.write(json.dumps(out, ensure_ascii=False) + "\n")
-        print(f"[{task}] wrote {out_path}")
+        status = "OK" if missing == 0 else f"INCOMPLETE — {missing} unsegmented fields, re-run!"
+        print(f"[{task}] wrote {out_path} [{status}]")
+        total_missing += missing
 
     write_qc_sample()
     print(f"\nDone in {(time.time() - t0) / 60:.1f} min, "
-          f"{seg.requests} YAP requests, {seg.failures} failed chunks")
+          f"{seg.requests} YAP requests, {seg.failures} failed chunks, "
+          f"{total_missing} missing fields")
+    if total_missing:
+        sys.exit(2)  # nonzero -> the notebook's retry loop resumes via the cache
 
 
 def write_qc_sample(n_per_task: int = 30, seed: int = 42) -> None:
