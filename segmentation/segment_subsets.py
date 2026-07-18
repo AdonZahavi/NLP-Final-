@@ -37,7 +37,7 @@ CACHE = ROOT / "cache" / "segment_cache.jsonl"
 
 TOKENIZE_RE = re.compile(r"[א-ת0-9a-zA-Z\"'׳״]+|[^\s]")
 SENT_SPLIT_RE = re.compile(r"(?<=[.!?])\s+")
-MAX_TOKENS_PER_REQ = 60
+MAX_TOKENS_PER_REQ = 25  # small chunks keep YAP's per-request memory low
 
 TASK_FIELDS = {
     "sentiment": ["text"],
@@ -172,6 +172,11 @@ def main() -> None:
     ap.add_argument("--host", default="http://localhost:8000")
     ap.add_argument("--limit", type=int, default=0, help="limit records per task (smoke test)")
     ap.add_argument("--task", choices=list(TASK_FILES), default=None)
+    ap.add_argument(
+        "--max-requests", type=int, default=500,
+        help="exit(3) after this many YAP requests so the runner can restart "
+             "the leaky server BEFORE it OOMs the whole VM (0 = unlimited)",
+    )
     args = ap.parse_args()
 
     cache = SegmentCache(CACHE)
@@ -194,6 +199,10 @@ def main() -> None:
 
         skipped = 0
         for i, text in enumerate(todo, 1):
+            if args.max_requests and seg.requests >= args.max_requests:
+                print(f"[planned restart] {seg.requests} requests served — "
+                      "exiting so the runner can recycle YAP (progress is cached)")
+                sys.exit(3)
             try:
                 cache.put(text, seg.segment_text(text))  # only SUCCESS is cached
             except YapServerDown:
