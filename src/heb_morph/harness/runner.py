@@ -74,7 +74,9 @@ def complete_with_retry(client, prompt: str, **params) -> str:
             return client.complete(prompt, **params)
         except Exception as e:  # noqa: BLE001
             last = e
-            print(f"    [retry] {type(e).__name__}: {e}")
+            import traceback
+            print(f"    [retry] {type(e).__name__}: {e!r}")
+            traceback.print_exc()
     raise RuntimeError(f"model call failed after retries: {last}")
 
 

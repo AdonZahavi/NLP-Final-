@@ -29,14 +29,22 @@ class HFLocalClient:
         import torch
 
         max_new = params.get("max_tokens", 64)
-        inputs = self._tok.apply_chat_template(
+        # tokenize=False -> plain string, robust across transformers versions
+        # (newer versions return a BatchEncoding from apply_chat_template)
+        text = self._tok.apply_chat_template(
             [{"role": "user", "content": prompt}],
-            add_generation_prompt=True, return_tensors="pt",
-        ).to(self._lm.device)
+            tokenize=False, add_generation_prompt=True,
+        )
+        enc = self._tok(text, return_tensors="pt",
+                        add_special_tokens=False).to(self._lm.device)
+        eos = self._tok.eos_token_id
+        pad = self._tok.pad_token_id
+        if pad is None:
+            pad = eos[0] if isinstance(eos, (list, tuple)) else eos
         with torch.no_grad():
             out = self._lm.generate(
-                inputs, max_new_tokens=max_new, do_sample=False,
-                pad_token_id=self._tok.eos_token_id,
+                **enc, max_new_tokens=max_new, do_sample=False,
+                pad_token_id=pad,
             )
-        return self._tok.decode(out[0][inputs.shape[1]:],
-                                skip_special_tokens=True).strip()
+        n_in = enc["input_ids"].shape[1]
+        return self._tok.decode(out[0][n_in:], skip_special_tokens=True).strip()
