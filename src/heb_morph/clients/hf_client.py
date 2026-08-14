@@ -8,10 +8,17 @@ from __future__ import annotations
 
 class HFLocalClient:
     def __init__(self, model_id: str, device_map: str = "auto",
-                 torch_dtype: str = "auto"):
+                 torch_dtype=None):
         import torch  # noqa: F401 — fail early if torch is missing
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
+        if torch_dtype is None:
+            # models ship bf16 weights, but pre-Ampere GPUs (e.g. Colab T4)
+            # have no bf16 hardware -> use fp16 there, bf16 where supported
+            torch_dtype = (torch.bfloat16
+                           if torch.cuda.is_available()
+                           and torch.cuda.is_bf16_supported()
+                           else torch.float16)
         self.model = model_id  # cache key uses the full HF id
         self._tok = AutoTokenizer.from_pretrained(model_id)
         self._lm = AutoModelForCausalLM.from_pretrained(

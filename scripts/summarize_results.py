@@ -35,7 +35,7 @@ def summarize(condition: str) -> Path | None:
     for model in MODELS:
         for task in TASK_FILES:
             path = cond_dir / f"{task}_{model}.jsonl"
-            if not path.exists():
+            if not path.exists() or path.stat().st_size == 0:
                 lines.append(f"| {model} | {task} | — | missing | | | | | |")
                 continue
             found += 1
