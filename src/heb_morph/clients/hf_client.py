@@ -36,7 +36,19 @@ class HFLocalClient:
             tokenize=False, add_generation_prompt=True,
         )
         enc = self._tok(text, return_tensors="pt",
-                        add_special_tokens=False).to(self._lm.device)
+                        add_special_tokens=False)
+        # T4 memory guard: the model barely fits in 15GB, so pathologically
+        # long inputs OOM during prefill. Keep head+tail (task instructions
+        # live at both ends of our prompts), drop the middle.
+        max_in = params.get("max_input_tokens", 2048)
+        n = enc["input_ids"].shape[1]
+        if n > max_in:
+            head, tail = (2 * max_in) // 3, max_in - (2 * max_in) // 3
+            import torch as _t
+            enc = {k: _t.cat([v[:, :head], v[:, -tail:]], dim=1)
+                   for k, v in enc.items()}
+            print(f"    [truncated] input {n} -> {max_in} tokens")
+        enc = {k: v.to(self._lm.device) for k, v in enc.items()}
         eos = self._tok.eos_token_id
         pad = self._tok.pad_token_id
         if pad is None:
