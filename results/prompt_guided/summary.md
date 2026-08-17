@@ -2,23 +2,19 @@
 
 | model | task | n | coverage | accuracy | macro-F1 | QA EM | QA token-F1 | parse-fail % |
 |---|---|---|---|---|---|---|---|---|
-| gpt-4 | sentiment | 500 | 500/500 | 0.748 | 0.620 | | | 0.0 |
-| gpt-4 | nli | 1739 | 1739/884 | 0.860 | 0.860 | | | 0.0 |
-| gpt-4 | qa | 980 | 980/500 | | | 0.653 | 0.740 | 0.0 |
-| claude | sentiment | 932 | 932/500 | 0.752 | 0.624 | | | 13.2 |
-| claude | nli | 2671 | 2671/884 | 0.641 | 0.756 | | | 32.7 |
-| claude | qa | 882 | 882/500 | | | 0.611 | 0.643 | 27.7 |
-| llama-3.2 | sentiment | — | missing | | | | | |
-| llama-3.2 | nli | — | missing | | | | | |
-| llama-3.2 | qa | — | missing | | | | | |
-| mistral-7b | sentiment | — | missing | | | | | |
-| mistral-7b | nli | — | missing | | | | | |
-| mistral-7b | qa | — | missing | | | | | |
+| gpt-4 | sentiment | — | missing | | | | | |
+| gpt-4 | nli | — | missing | | | | | |
+| gpt-4 | qa | — | missing | | | | | |
+| claude | sentiment | — | missing | | | | | |
+| claude | nli | — | missing | | | | | |
+| claude | qa | — | missing | | | | | |
+| llama-3.2 | sentiment | 500 | 500/500 | 0.740 | 0.522 | | | 0.4 |
+| llama-3.2 | nli | 884 | 884/884 | 0.377 | 0.278 | | | 0.0 |
+| llama-3.2 | qa | 500 | 500/500 | | | 0.252 | 0.401 | 0.0 |
+| mistral-7b | sentiment | 500 | 500/500 | 0.756 | 0.581 | | | 0.0 |
+| mistral-7b | nli | 884 | 884/884 | 0.479 | 0.436 | | | 0.0 |
+| mistral-7b | qa | 500 | 500/500 | | | 0.332 | 0.471 | 0.0 |
 
 Files found: 6/12
 
-## ⚠ Warnings
-
-- claude×sentiment: parse-failure rate 13.2% > 5% — inspect raw outputs
-- claude×nli: parse-failure rate 32.7% > 5% — inspect raw outputs
-- claude×qa: parse-failure rate 27.7% > 5% — inspect raw outputs
+All present files complete, parse-failure ≤ 5% ✔
