@@ -20,10 +20,13 @@ class CachedModelClient:
 
     def complete(self, prompt: str, **params) -> str:
         cached = self._cache.get(self.model, prompt, params)
-        if cached is not None:
+        # empty cached responses are treated as misses: they were stored by a
+        # bug (thinking consumed the token budget) and must be re-queried
+        if cached is not None and cached.strip():
             self.last_was_cache_hit = True
             return cached
         self.last_was_cache_hit = False
         response = self._client.complete(prompt, **params)
-        self._cache.put(self.model, prompt, params, response)
+        if response.strip():  # never memorize empty completions
+            self._cache.put(self.model, prompt, params, response)
         return response
