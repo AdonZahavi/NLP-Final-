@@ -9,7 +9,7 @@ McNemar test on paired predictions; `*` p<0.05, `**` p<0.001.
 | model | raw | segmented | Δseg | p(seg) | prompt_guided | Δpg | p(pg) |
 |---|---|---|---|---|---|---|---|
 | gpt-4 | 0.734 | 0.730 | -0.004 | 0.8746 | 0.748 | +0.014 | 0.2649 |
-| claude | 0.822 | 0.814 | -0.008 | 0.5572 | 0.752 | -0.070 | **<0.0001** |
+| claude | 0.822 | 0.824 | +0.002 | 1.0000 | 0.820 | -0.002 | 1.0000 |
 | llama-3.2 | 0.718 | 0.732 | +0.014 | 0.5341 | 0.740 | +0.022 | 0.2997 |
 | mistral-7b | 0.752 | 0.744 | -0.008 | 0.5716 | 0.756 | +0.004 | 0.8450 |
 
@@ -17,8 +17,8 @@ McNemar test on paired predictions; `*` p<0.05, `**` p<0.001.
 
 | model | raw | segmented | Δseg | p(seg) | prompt_guided | Δpg | p(pg) |
 |---|---|---|---|---|---|---|---|
-| gpt-4 | 0.885 | 0.846 | -0.038 | **0.0002** | 0.860 | -0.025 | *0.0022* |
-| claude | 0.876 | 0.688 | -0.188 | **<0.0001** | 0.641 | -0.235 | **<0.0001** |
+| gpt-4 | 0.885 | 0.846 | -0.038 | **0.0002** | 0.857 | -0.027 | *0.0022* |
+| claude | 0.914 | 0.891 | -0.023 | *0.0169* | 0.900 | -0.014 | 0.1550 |
 | llama-3.2 | 0.459 | 0.431 | -0.028 | 0.1388 | 0.377 | -0.083 | **<0.0001** |
 | mistral-7b | 0.514 | 0.464 | -0.050 | **<0.0001** | 0.479 | -0.035 | *0.0032* |
 
@@ -26,8 +26,8 @@ McNemar test on paired predictions; `*` p<0.05, `**` p<0.001.
 
 | model | raw | segmented | Δseg | p(seg) | prompt_guided | Δpg | p(pg) |
 |---|---|---|---|---|---|---|---|
-| gpt-4 | 0.628 | 0.424 | -0.204 | **<0.0001** | 0.653 | +0.025 | 0.1934 |
-| claude | 0.652 | 0.432 | -0.220 | **<0.0001** | 0.611 | -0.041 | *0.0066* |
+| gpt-4 | 0.628 | 0.424 | -0.204 | **<0.0001** | 0.648 | +0.020 | 0.1934 |
+| claude | 0.700 | 0.478 | -0.222 | **<0.0001** | 0.682 | -0.018 | 0.2430 |
 | llama-3.2 | 0.366 | 0.280 | -0.086 | **<0.0001** | 0.252 | -0.114 | **<0.0001** |
 | mistral-7b | 0.330 | 0.266 | -0.064 | *0.0027* | 0.332 | +0.002 | 1.0000 |
 
@@ -36,9 +36,9 @@ McNemar test on paired predictions; `*` p<0.05, `**` p<0.001.
 | model | task | raw | segmented | prompt_guided |
 |---|---|---|---|---|
 | gpt-4 | sentiment | 0.622 | 0.612 | 0.620 |
-| gpt-4 | nli | 0.884 | 0.846 | 0.860 |
-| claude | sentiment | 0.669 | 0.667 | 0.624 |
-| claude | nli | 0.898 | 0.783 | 0.756 |
+| gpt-4 | nli | 0.884 | 0.846 | 0.858 |
+| claude | sentiment | 0.669 | 0.671 | 0.667 |
+| claude | nli | 0.913 | 0.891 | 0.904 |
 | llama-3.2 | sentiment | 0.559 | 0.579 | 0.522 |
 | llama-3.2 | nli | 0.362 | 0.341 | 0.278 |
 | mistral-7b | sentiment | 0.594 | 0.590 | 0.581 |
@@ -54,10 +54,10 @@ copies segmented spans), not real comprehension loss.
 |---|---|---|---|---|
 | gpt-4 | raw | 0.628 | 0.628 | +0.000 |
 | gpt-4 | segmented | 0.424 | 0.600 | +0.176 |
-| gpt-4 | prompt_guided | 0.653 | 0.653 | +0.000 |
-| claude | raw | 0.652 | 0.652 | +0.000 |
-| claude | segmented | 0.432 | 0.592 | +0.160 |
-| claude | prompt_guided | 0.611 | 0.611 | +0.000 |
+| gpt-4 | prompt_guided | 0.648 | 0.648 | +0.000 |
+| claude | raw | 0.700 | 0.700 | +0.000 |
+| claude | segmented | 0.478 | 0.654 | +0.176 |
+| claude | prompt_guided | 0.682 | 0.682 | +0.000 |
 | llama-3.2 | raw | 0.366 | 0.366 | +0.000 |
 | llama-3.2 | segmented | 0.280 | 0.292 | +0.012 |
 | llama-3.2 | prompt_guided | 0.252 | 0.254 | +0.002 |
@@ -77,12 +77,12 @@ helpful = wrong→right under the condition; harmful = right→wrong.
 | gpt-4 | nli | prompt_guided | 17 | 41 | -24 |
 | gpt-4 | qa | segmented | 23 | 125 | -102 |
 | gpt-4 | qa | prompt_guided | 29 | 19 | +10 |
-| claude | sentiment | segmented | 11 | 15 | -4 |
-| claude | sentiment | prompt_guided | 6 | 44 | -38 |
-| claude | nli | segmented | 10 | 176 | -166 |
-| claude | nli | prompt_guided | 7 | 238 | -231 |
-| claude | qa | segmented | 13 | 123 | -110 |
-| claude | qa | prompt_guided | 13 | 32 | -19 |
+| claude | sentiment | segmented | 12 | 11 | +1 |
+| claude | sentiment | prompt_guided | 9 | 10 | -1 |
+| claude | nli | segmented | 22 | 42 | -20 |
+| claude | nli | prompt_guided | 24 | 36 | -12 |
+| claude | qa | segmented | 19 | 130 | -111 |
+| claude | qa | prompt_guided | 19 | 28 | -9 |
 | llama-3.2 | sentiment | segmented | 50 | 43 | +7 |
 | llama-3.2 | sentiment | prompt_guided | 52 | 41 | +11 |
 | llama-3.2 | nli | segmented | 119 | 144 | -25 |
