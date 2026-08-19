@@ -25,24 +25,24 @@ prefixes split per raw token; `expansion` = seg/raw token ratio.
 | gpt-4 | qa | prompt_guided | helpful | 29 | 1.635 | 0.441 | 22.97 |
 | gpt-4 | qa | prompt_guided | harmful | 19 | 1.656 | 0.425 | 21.63 |
 | gpt-4 | qa | prompt_guided | stable | 452 | 1.634 | 0.426 | 22.13 |
-| claude | sentiment | segmented | helpful | 11 | 1.400 | 0.330 | 7.55 |
-| claude | sentiment | segmented | harmful | 15 | 1.514 | 0.325 | 3.40 |
-| claude | sentiment | segmented | stable | 474 | 1.519 | 0.356 | 3.29 |
-| claude | sentiment | prompt_guided | helpful | 6 | 1.322 | 0.247 | 3.00 |
-| claude | sentiment | prompt_guided | harmful | 44 | 1.468 | 0.339 | 1.27 |
-| claude | sentiment | prompt_guided | stable | 450 | 1.524 | 0.357 | 3.60 |
-| claude | nli | segmented | helpful | 10 | 1.566 | 0.329 | 3.60 |
-| claude | nli | segmented | harmful | 176 | 1.588 | 0.355 | 3.60 |
-| claude | nli | segmented | stable | 698 | 1.585 | 0.373 | 4.04 |
-| claude | nli | prompt_guided | helpful | 7 | 1.559 | 0.401 | 5.57 |
-| claude | nli | prompt_guided | harmful | 238 | 1.572 | 0.338 | 2.96 |
-| claude | nli | prompt_guided | stable | 639 | 1.590 | 0.381 | 4.30 |
-| claude | qa | segmented | helpful | 13 | 1.590 | 0.410 | 19.92 |
-| claude | qa | segmented | harmful | 123 | 1.651 | 0.437 | 22.63 |
-| claude | qa | segmented | stable | 364 | 1.631 | 0.424 | 22.08 |
-| claude | qa | prompt_guided | helpful | 13 | 1.579 | 0.404 | 19.15 |
-| claude | qa | prompt_guided | harmful | 32 | 1.590 | 0.402 | 20.34 |
-| claude | qa | prompt_guided | stable | 455 | 1.640 | 0.429 | 22.37 |
+| claude | sentiment | segmented | helpful | 12 | 1.372 | 0.308 | 7.00 |
+| claude | sentiment | segmented | harmful | 11 | 1.556 | 0.361 | 3.82 |
+| claude | sentiment | segmented | stable | 477 | 1.519 | 0.356 | 3.28 |
+| claude | sentiment | prompt_guided | helpful | 9 | 1.293 | 0.231 | 2.56 |
+| claude | sentiment | prompt_guided | harmful | 10 | 1.419 | 0.231 | 2.20 |
+| claude | sentiment | prompt_guided | stable | 481 | 1.523 | 0.359 | 3.42 |
+| claude | nli | segmented | helpful | 22 | 1.573 | 0.357 | 3.09 |
+| claude | nli | segmented | harmful | 42 | 1.612 | 0.364 | 3.62 |
+| claude | nli | segmented | stable | 820 | 1.584 | 0.370 | 3.99 |
+| claude | nli | prompt_guided | helpful | 24 | 1.632 | 0.413 | 4.62 |
+| claude | nli | prompt_guided | harmful | 36 | 1.568 | 0.320 | 3.39 |
+| claude | nli | prompt_guided | stable | 824 | 1.584 | 0.370 | 3.95 |
+| claude | qa | segmented | helpful | 19 | 1.587 | 0.416 | 19.95 |
+| claude | qa | segmented | harmful | 130 | 1.665 | 0.443 | 22.97 |
+| claude | qa | segmented | stable | 351 | 1.626 | 0.421 | 21.98 |
+| claude | qa | prompt_guided | helpful | 19 | 1.581 | 0.413 | 20.16 |
+| claude | qa | prompt_guided | harmful | 28 | 1.601 | 0.417 | 19.96 |
+| claude | qa | prompt_guided | stable | 453 | 1.639 | 0.428 | 22.38 |
 | llama-3.2 | sentiment | segmented | helpful | 50 | 1.396 | 0.294 | 4.10 |
 | llama-3.2 | sentiment | segmented | harmful | 43 | 1.731 | 0.362 | 2.00 |
 | llama-3.2 | sentiment | segmented | stable | 407 | 1.509 | 0.361 | 3.44 |
@@ -84,12 +84,12 @@ prefixes split per raw token; `expansion` = seg/raw token ratio.
 
 | task | group | n | expansion | prefix_density |
 |---|---|---|---|---|
-| sentiment | helpful | 92 | 1.434 | 0.334 |
-| sentiment | harmful | 95 | 1.686 | 0.365 |
-| sentiment | stable | 1813 | 1.512 | 0.355 |
-| nli | helpful | 185 | 1.574 | 0.356 |
-| nli | harmful | 454 | 1.592 | 0.368 |
-| nli | stable | 2897 | 1.585 | 0.370 |
-| qa | helpful | 98 | 1.616 | 0.418 |
-| qa | harmful | 385 | 1.641 | 0.437 |
-| qa | stable | 1517 | 1.634 | 0.424 |
+| sentiment | helpful | 93 | 1.430 | 0.331 |
+| sentiment | harmful | 91 | 1.699 | 0.371 |
+| sentiment | stable | 1816 | 1.512 | 0.355 |
+| nli | helpful | 197 | 1.574 | 0.357 |
+| nli | harmful | 320 | 1.597 | 0.375 |
+| nli | stable | 3019 | 1.585 | 0.370 |
+| qa | helpful | 104 | 1.614 | 0.419 |
+| qa | harmful | 392 | 1.646 | 0.439 |
+| qa | stable | 1504 | 1.633 | 0.424 |
