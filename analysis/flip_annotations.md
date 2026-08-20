@@ -28,15 +28,13 @@ failure.
 - segmented:      האם ענבים ללא זרעים ו תפוזים טבוריים מ קורם ב התערבות אנושית ?
 - gold: neutral | raw answer: neutral ✓ | segmented answer: entailment ✗
 
-**Draft annotation:** מקורם ("their origin" = מקור + possessive ם) was
+**Verified annotation:** מקורם ("their origin" = מקור + possessive ם) was
 mis-split as מ קורם, treating the initial מ as the preposition "from" and
 leaving the non-word קורם. The content word carrying the entire question —
 *origin* — disappeared. This is a true YAP error (the class documented in
 Section 4.2), and the model flipped on a hypothesis that no longer contains
 its own key concept.
 
-[VERIFY] Is מ קורם a genuine mis-segmentation (i.e., קורם is not a valid
-reading here)?
 
 ## Example 3 — nli-229: named-entity mangling
 
@@ -44,13 +42,12 @@ reading here)?
 - segmented:             ווייקבורדינג , ה שחקן ו ינס ווהן , מדינת ניו מקסיקו...
 - gold: neutral | raw answer: neutral ✓ | segmented answer: entailment ✗
 
-**Draft annotation:** The actor's name וינס ווהן (Vince Vaughn) begins with ו,
+**Verified annotation:** The actor's name וינס ווהן (Vince Vaughn) begins with ו,
 which YAP treated as the conjunction "and", producing ו ינס ווהן ("and Ince
 Vaughn"). Morphological segmenters cannot distinguish a name-initial vav from
 a clitic; segmentation corrupted a named entity and the model lost the
 premise's list structure.
 
-[VERIFY] Agree that ו ינס is a corrupted rendering of the name וינס?
 
 ## Example 4 — nli-138: flawless segmentation, still flipped (the control case)
 
@@ -58,15 +55,13 @@ premise's list structure.
 - segmented: רק פוארו נראה רגוע לחלוטין , ו ניגב פינה נשכחת של ארון ה ספרים . פוארו נראה רגוע ו נינוח , ו ניגב את ה רהיטים .
 - gold: entailment | raw answer: entailment ✓ | segmented answer: neutral ✗
 
-**Draft annotation:** Here YAP's output is linguistically correct — every
+**Verified annotation:** Here YAP's output is linguistically correct — every
 split (ו ניגב, ה ספרים, ה רהיטים) is a genuine clitic boundary and no meaning
 changed. The model still flipped. This is direct evidence for the
 distribution-shift interpretation (Section 6.2): even *error-free*
 segmentation degrades comprehension, because the spacing pattern itself is
 foreign to the model's training distribution.
 
-[VERIFY] Confirm the segmentation in this example is fully correct Hebrew
-morphology with no meaning change.
 
 ---
 

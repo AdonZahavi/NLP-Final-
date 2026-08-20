@@ -141,8 +141,8 @@ def main() -> None:
 
     # ------- qualitative examples: Claude NLI harmful flips (biggest effect)
     ex_lines = ["# Qualitative flip examples (issue #13)", "",
-                "Claude × NLI × segmented — the largest harmful effect",
-                "(−166 net flips). First 10 harmful flips:", ""]
+                "Claude × NLI × segmented — the largest harmful flip asymmetry.",
+                "First 10 harmful flips:", ""]
     raw_recs = {r["id"]: r for r in
                 (json.loads(l) for l in
                  open(ROOT / "results" / "raw" / "nli_claude.jsonl",
