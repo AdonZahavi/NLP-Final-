@@ -102,7 +102,7 @@ the report and video:
    character level). Models never see whole Hebrew words anyway; their
    tokenizer already "segments", just not on linguistic lines. Explicit
    segmentation adds no information, shifts the input away from the training
-   distribution, and makes inputs 12–20% longer (= more cost).
+   distribution, and makes inputs 6–18% longer (= more cost).
 5. **Flip analysis:** examples that changed from right→wrong under
    segmentation are morphologically *ordinary* on NLI/QA — the damage is a
    uniform distribution shift, not confusion on hard morphology. We verified
