@@ -43,10 +43,26 @@ model saw in training.
 3. **The mechanism**: tokenizer fertility. English ≈ 1.06 tokens/word.
    Hebrew: GPT-4o 1.79, Claude 3.58, LLaMA/Mistral ≈ 4.4–4.6 (near character
    level). The models never see whole Hebrew words anyway — their tokenizer
-   already "segments". And YAP segmentation makes inputs 12–20% longer, so it
-   costs more money for worse accuracy.
+   already "segments". And YAP segmentation makes inputs 6–18% longer, so it
+   costs more money for no benefit.
 
 ---
+
+## Slide-by-slide timing map (record over report/slides.pptx)
+
+| Time | Slide | Content |
+|---|---|---|
+| 0:00-0:15 | 1 · Title | Title as a question + names, one sentence |
+| 0:15-0:55 | 2 · The question | The Hebrew-word hook, 30 years of segment-first, RQ1 + RQ2 |
+| 0:55-1:40 | 3 · The experiment | 4x3x3 matrix, one sentence three ways, rigor sentence |
+| 1:40-2:20 | 4 · Results | NLI table: "no model got better - most got worse"; walk the red column |
+| 2:20-2:50 | 5 · Artifact I | QA "collapse": 0.628 -> 0.424 -> 0.600 (space-insensitive) |
+| 2:50-3:20 | 6 · Artifact II | Claude's empty answers: 5.3% vs 26.2%; -18.8 became -2.3; two lessons |
+| 3:20-3:55 | 7 · Mechanism | Fertility chart: tokenizers already segment; +12-20% cost |
+| 3:55-4:20 | 8 · Flip taxonomy | Fast tour of the four cards, end on "no error - still flipped" |
+| 4:20-4:50 | 9 · Conclusion | "Feed LLMs raw Hebrew" + five bullets; hold the slide |
+
+Target 4:50 total - leaves a safety buffer under the 5:00 limit.
 
 ## Minute-by-minute script skeleton
 
@@ -83,7 +99,7 @@ model saw in training.
   YAP's segmentation doesn't inform the model; it makes Hebrew look like
   text it never saw in training. It's a distribution shift, and we showed
   the damage is uniform, not concentrated in morphologically hard examples."
-- Cost angle: "and it makes every request 12–20% more expensive."
+- Cost angle: "and it makes every request 6–18% more expensive."
 
 ### 4:20–5:00 — Conclusion
 - "The answer to our title: no. Feed LLMs raw Hebrew."

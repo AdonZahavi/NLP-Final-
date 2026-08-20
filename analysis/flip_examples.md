@@ -1,7 +1,7 @@
 # Qualitative flip examples (issue #13)
 
-Claude × NLI × segmented — the largest harmful effect
-(−166 net flips). First 10 harmful flips:
+Claude × NLI × segmented (post-correction: 42 harmful vs 22 helpful flips,
+net −20). First 10 harmful flips:
 
 ### nli-108
 - raw premise+hypothesis: נשמע ממש כמו אגדה. אבל סר ג'יימס היה זהיר מדי מכדי להיסחף. זה נשמע כמו סיפור מהנה.
