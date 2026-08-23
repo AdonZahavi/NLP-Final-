@@ -8,4 +8,7 @@ venv/
 
 # Secrets / API keys
 .env
-.en
+
+# Large files / submission artifacts
+report/video/
+submission_files/
